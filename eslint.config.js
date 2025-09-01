@@ -1,17 +1,16 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import { defineConfig, globalIgnores } from 'eslint/config'
+import js from '@eslint/js';
+import globals from 'globals';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import prettier from 'eslint-plugin-prettier';
+import { defineConfig, globalIgnores } from 'eslint/config';
 
 export default defineConfig([
   globalIgnores(['dist', 'node_modules']),
   {
     files: ['**/*.{js,jsx}'],
-    extends: [
-      js.configs.recommended,
-    ],
+    extends: [js.configs.recommended],
     languageOptions: {
       ecmaVersion: 'latest',
       globals: {
@@ -27,6 +26,7 @@ export default defineConfig([
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
+      prettier,
     },
     settings: {
       react: {
@@ -34,6 +34,9 @@ export default defineConfig([
       },
     },
     rules: {
+      // Prettier integration - this should be last to override other rules
+      'prettier/prettier': 'error',
+
       // React specific rules
       'react/jsx-uses-react': 'off', // Not needed in React 17+
       'react/react-in-jsx-scope': 'off', // Not needed in React 17+
@@ -50,11 +53,14 @@ export default defineConfig([
       'react-hooks/exhaustive-deps': 'warn',
 
       // Variable rules
-      'no-unused-vars': ['warn', {
-        varsIgnorePattern: '^[A-Z_]',
-        argsIgnorePattern: '^_',
-        ignoreRestSiblings: true
-      }],
+      'no-unused-vars': [
+        'warn',
+        {
+          varsIgnorePattern: '^[A-Z_]',
+          argsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
 
       // General improvements
       'prefer-const': 'warn',
@@ -63,4 +69,4 @@ export default defineConfig([
       'no-debugger': 'error',
     },
   },
-])
+]);

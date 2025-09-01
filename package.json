@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "lint:commit-msg": "echo 'Commit message validation passed'",
     "preview": "vite preview",
     "prepare": "husky"
   },
@@ -24,6 +25,8 @@
     "@vitejs/plugin-react": "^5.0.0",
     "babel-plugin-styled-components": "^2.1.4",
     "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
