@@ -1,27 +1,15 @@
 import { useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
-import styled from 'styled-components';
-
-const Button = styled.button`
-  background: red;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-
-  &:hover {
-    background: #0056b3;
-  }
-`;
+import theme from './theme';
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -42,8 +30,10 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-      <Button>Click me</Button>
-    </>
+      <button style={{ backgroundColor: theme.colors.brand.primary }}>
+        Click me
+      </button>
+    </ThemeProvider>
   );
 }
 
