@@ -62,7 +62,11 @@ export const StyledButton = styled.button`
 
 // Button component with default props
 const Button = ({ children, variant, size }) => {
-  return <StyledButton variant={variant} size={size}>{children}</StyledButton>;
+  return (
+    <StyledButton variant={variant} size={size}>
+      {children}
+    </StyledButton>
+  );
 };
 
 export default Button;
