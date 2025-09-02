@@ -8,6 +8,8 @@ export const theme = {
       secondary: '#dadbf1', // Light blue
       black: '#000000', // Pure black
       white: '#ffffff', // Pure white
+      placeholder: '#999', // Placeholder text color
+      border: '#dee2e6', // Border color
     },
   },
 

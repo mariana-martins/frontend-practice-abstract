@@ -39,7 +39,7 @@ const buttonSizes = {
   `,
 
   lg: css`
-    padding: ${({ theme }) => theme.spacing[1.5]} ${({ theme }) => theme.spacing[2]};
+    padding: ${({ theme }) => theme.spacing[1.5]} ${({ theme }) => theme.spacing[5]};
     font-size: ${({ theme }) => theme.typography.fontSize['2xl']};
     border-radius: 8px;
     font-weight: ${({ theme }) => theme.typography.fontWeight.normal};
@@ -54,16 +54,16 @@ export const StyledButton = styled.button`
   cursor: pointer;
 
   /* Variants */
-  ${({ variant }) => buttonVariants[variant] || buttonVariants.primary}
+  ${({ $variant }) => buttonVariants[$variant] || buttonVariants.primary}
 
   /* Sizes */
-  ${({ size }) => buttonSizes[size] || buttonSizes.md}
+  ${({ $size }) => buttonSizes[$size] || buttonSizes.md}
 `;
 
 // Button component with default props
-const Button = ({ children, variant, size }) => {
+const Button = ({ children, variant, size, ...props }) => {
   return (
-    <StyledButton variant={variant} size={size}>
+    <StyledButton $variant={variant} $size={size} {...props}>
       {children}
     </StyledButton>
   );
