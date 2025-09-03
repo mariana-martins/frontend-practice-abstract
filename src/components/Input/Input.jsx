@@ -23,8 +23,8 @@ export const StyledInput = styled.input`
   ${({ $size }) => inputSizes[$size] || inputSizes.lg}
 `;
 
-function Input({ size, value, onChange, ...props }) {
-  return <StyledInput $size={size} value={value} onChange={onChange} {...props}></StyledInput>;
+function Input({ id, size, value, onChange, ...props }) {
+  return <StyledInput id={id} $size={size} value={value} onChange={onChange} {...props} />;
 }
 
 export default Input;

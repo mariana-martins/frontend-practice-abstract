@@ -1,21 +1,22 @@
 import { Label, VisuallyHidden } from 'radix-ui';
+
 import React from 'react';
 
 import Input from '../Input';
 
-function SearchInput({ size, value, onChange }) {
+function SearchInput({ id, size, value, onChange }) {
   return (
     <>
       <VisuallyHidden.Root>
-        <Label.Root className="LabelRoot" htmlFor="SearchInput">
+        <Label.Root htmlFor={id}>
           Search
         </Label.Root>
       </VisuallyHidden.Root>
 
       <Input
+        id={id}
         size={size}
         type="text"
-        id="SearchInput"
         value={value}
         placeholder={'Search'}
         onChange={onChange}
