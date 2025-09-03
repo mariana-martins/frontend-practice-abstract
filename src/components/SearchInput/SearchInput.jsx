@@ -8,9 +8,7 @@ function SearchInput({ id, size, value, onChange }) {
   return (
     <>
       <VisuallyHidden.Root>
-        <Label.Root htmlFor={id}>
-          Search
-        </Label.Root>
+        <Label.Root htmlFor={id}>Search</Label.Root>
       </VisuallyHidden.Root>
 
       <Input

@@ -56,7 +56,6 @@ export const theme = {
   // Spacing Scale
   spacing: {
     0: '0',
-    px: '1px',
     0.5: '0.125rem', // 2px
     1: '0.25rem', // 4px
     1.5: '0.375rem', // 6px
@@ -75,6 +74,7 @@ export const theme = {
     12: '3rem', // 48px
     14: '3.5rem', // 56px
     16: '4rem', // 64px
+    18: '4.5rem', // 72px
     20: '5rem', // 80px
     24: '6rem', // 96px
     28: '7rem', // 112px
