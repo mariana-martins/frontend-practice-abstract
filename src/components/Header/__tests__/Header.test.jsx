@@ -104,10 +104,10 @@ describe('Header Component', () => {
 
     // Check if alert was NOT called (since we now use state-based error handling)
     expect(mockAlert).not.toHaveBeenCalledWith('Please enter a search term');
-    
+
     // Check that the search input still has no value (wasn't cleared)
     expect(searchInput).toHaveValue('');
-    
+
     // Check that the input has aria-invalid attribute set to true
     expect(searchInput).toHaveAttribute('aria-invalid', 'true');
   });
@@ -124,10 +124,10 @@ describe('Header Component', () => {
 
     // Check if alert was NOT called (since we now use state-based error handling)
     expect(mockAlert).not.toHaveBeenCalledWith('Please enter a search term');
-    
+
     // Check that the search input still has no value (wasn't cleared)
     expect(searchInput).toHaveValue('');
-    
+
     // Check that the input has aria-invalid attribute set to true
     expect(searchInput).toHaveAttribute('aria-invalid', 'true');
   });
@@ -152,5 +152,156 @@ describe('Header Component', () => {
     // Check if there's a label for the input (even if visually hidden)
     const label = screen.getByText('Search');
     expect(label).toBeInTheDocument();
+  });
+
+  // New tests for enhanced validation and error handling
+  it('shows validation error for search term too short', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    const submitButton = screen.getByRole('button', { name: /submit a request/i });
+
+    // Type a short search term (less than 4 characters)
+    await user.type(searchInput, 'ab');
+    await user.click(submitButton);
+
+    // Check that error state is set
+    expect(searchInput).toHaveAttribute('aria-invalid', 'true');
+
+    // Check that alert was NOT called (since we use state-based error handling)
+    expect(mockAlert).not.toHaveBeenCalled();
+  });
+
+  it('shows validation error for search term too short via Enter key', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+
+    // Type a short search term and press Enter
+    await user.type(searchInput, 'xyz');
+    await user.keyboard('{Enter}');
+
+    // Check that error state is set
+    expect(searchInput).toHaveAttribute('aria-invalid', 'true');
+
+    // Check that alert was NOT called
+    expect(mockAlert).not.toHaveBeenCalled();
+  });
+
+  it('clears error when user starts typing after validation error', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    const submitButton = screen.getByRole('button', { name: /submit a request/i });
+
+    // Submit empty form to trigger error
+    await user.click(submitButton);
+    expect(searchInput).toHaveAttribute('aria-invalid', 'true');
+
+    // Start typing to clear error
+    await user.type(searchInput, 'test');
+    expect(searchInput).toHaveAttribute('aria-invalid', 'false');
+  });
+
+  it('handles successful search with valid input', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    const submitButton = screen.getByRole('button', { name: /submit a request/i });
+
+    // Type a valid search term (4+ characters)
+    await user.type(searchInput, 'valid search');
+    await user.click(submitButton);
+
+    // Check that alert was called with the search term
+    expect(mockAlert).toHaveBeenCalledWith('Search: valid search');
+
+    // Check that input is cleared after successful search
+    expect(searchInput).toHaveValue('');
+
+    // Check that error state is cleared
+    expect(searchInput).toHaveAttribute('aria-invalid', 'false');
+  });
+
+  it('handles successful search via Enter key with valid input', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+
+    // Type a valid search term and press Enter
+    await user.type(searchInput, 'enter search');
+    await user.keyboard('{Enter}');
+
+    // Check that alert was called
+    expect(mockAlert).toHaveBeenCalledWith('Search: enter search');
+
+    // Check that input is cleared
+    expect(searchInput).toHaveValue('');
+  });
+
+  it('trims whitespace from search input before validation', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    const submitButton = screen.getByRole('button', { name: /submit a request/i });
+
+    // Type search term with leading/trailing whitespace
+    await user.type(searchInput, '  test  ');
+    await user.click(submitButton);
+
+    // Should succeed because trimmed value is valid
+    expect(mockAlert).toHaveBeenCalledWith('Search: test');
+    expect(searchInput).toHaveValue('');
+  });
+
+  it('handles error during form submission gracefully', async () => {
+    const user = userEvent.setup();
+
+    // Mock console.error to avoid noise in test output
+    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    // Mock a function that throws an error
+    const originalAlert = global.alert;
+    global.alert = jest.fn(() => {
+      throw new Error('Alert failed');
+    });
+
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    const submitButton = screen.getByRole('button', { name: /submit a request/i });
+
+    // Type a valid search term
+    await user.type(searchInput, 'test search');
+    await user.click(submitButton);
+
+    // Check that error state is set due to the thrown error
+    expect(searchInput).toHaveAttribute('aria-invalid', 'true');
+
+    // Restore original alert and console.error
+    global.alert = originalAlert;
+    consoleSpy.mockRestore();
+  });
+
+  it('maintains proper form structure and accessibility', () => {
+    renderWithTheme(<Header />);
+
+    // Check that form element exists (using tag name since role might not be recognized)
+    const form = document.querySelector('form');
+    expect(form).toBeInTheDocument();
+
+    // Check that search input is properly associated with the form
+    const searchInput = screen.getByPlaceholderText('Search');
+    expect(form).toContainElement(searchInput);
+
+    // Check that submit button is in the form
+    const submitButton = screen.getByRole('button', { name: /submit a request/i });
+    expect(form).toContainElement(submitButton);
   });
 });
