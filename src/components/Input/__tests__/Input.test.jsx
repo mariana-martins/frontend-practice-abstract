@@ -7,30 +7,33 @@ import Input from '../Input';
 
 describe('Input Component', () => {
   it('renders input with default props', () => {
-    renderWithTheme(<Input />);
+    renderWithTheme(<Input id="test-input" label="Test Input" />);
 
     const input = screen.getByRole('textbox');
     expect(input).toBeInTheDocument();
-    // HTML inputs default to type="text" but don't show the attribute
-    expect(input.tagName).toBe('INPUT');
+    expect(input).toHaveAttribute('id', 'test-input');
+    expect(input).toHaveAttribute('type', 'text');
+    expect(input).toHaveAttribute('aria-label', 'Test Input');
   });
 
   it('renders input with custom id', () => {
-    renderWithTheme(<Input id="test-input" />);
+    renderWithTheme(<Input id="test-input" label="Test Input" />);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveAttribute('id', 'test-input');
   });
 
   it('renders input with placeholder', () => {
-    renderWithTheme(<Input placeholder="Enter your name" />);
+    renderWithTheme(<Input id="test-input" label="Test Input" placeholder="Enter your name" />);
 
     const input = screen.getByPlaceholderText('Enter your name');
     expect(input).toBeInTheDocument();
   });
 
   it('renders input with value', () => {
-    renderWithTheme(<Input value="test value" onChange={() => {}} />);
+    renderWithTheme(
+      <Input id="test-input" label="Test Input" value="test value" onChange={() => {}} />
+    );
 
     const input = screen.getByDisplayValue('test value');
     expect(input).toBeInTheDocument();
@@ -40,7 +43,7 @@ describe('Input Component', () => {
     const handleChange = jest.fn();
     const user = userEvent.setup();
 
-    renderWithTheme(<Input onChange={handleChange} />);
+    renderWithTheme(<Input id="test-input" label="Test Input" onChange={handleChange} />);
 
     const input = screen.getByRole('textbox');
     await user.type(input, 'test');
@@ -53,7 +56,13 @@ describe('Input Component', () => {
     const TestComponent = () => {
       const [value, setValue] = React.useState('');
       return (
-        <Input value={value} onChange={e => setValue(e.target.value)} placeholder="Type here" />
+        <Input
+          id="test-input"
+          label="Test Input"
+          value={value}
+          onChange={e => setValue(e.target.value)}
+          placeholder="Type here"
+        />
       );
     };
 
@@ -66,7 +75,7 @@ describe('Input Component', () => {
   });
 
   it('renders input with size prop', () => {
-    renderWithTheme(<Input size="lg" />);
+    renderWithTheme(<Input id="test-input" label="Test Input" size="lg" />);
 
     const input = screen.getByRole('textbox');
     expect(input).toBeInTheDocument();
@@ -75,14 +84,22 @@ describe('Input Component', () => {
   });
 
   it('renders input with required attribute', () => {
-    renderWithTheme(<Input required />);
+    renderWithTheme(<Input id="test-input" label="Test Input" required />);
 
     const input = screen.getByRole('textbox');
     expect(input).toBeRequired();
   });
 
   it('forwards additional props to input element', () => {
-    renderWithTheme(<Input data-testid="custom-input" aria-label="Custom input" maxLength={10} />);
+    renderWithTheme(
+      <Input
+        id="test-input"
+        label="Test Input"
+        data-testid="custom-input"
+        aria-label="Custom input"
+        maxLength={10}
+      />
+    );
 
     const input = screen.getByTestId('custom-input');
     expect(input).toHaveAttribute('aria-label', 'Custom input');
@@ -94,7 +111,15 @@ describe('Input Component', () => {
     const handleBlur = jest.fn();
     const user = userEvent.setup();
 
-    renderWithTheme(<Input onFocus={handleFocus} onBlur={handleBlur} placeholder="Focus test" />);
+    renderWithTheme(
+      <Input
+        id="test-input"
+        label="Test Input"
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        placeholder="Focus test"
+      />
+    );
 
     const input = screen.getByPlaceholderText('Focus test');
 
@@ -111,7 +136,13 @@ describe('Input Component', () => {
     const user = userEvent.setup();
 
     renderWithTheme(
-      <Input onKeyDown={handleKeyDown} onKeyUp={handleKeyUp} placeholder="Key test" />
+      <Input
+        id="test-input"
+        label="Test Input"
+        onKeyDown={handleKeyDown}
+        onKeyUp={handleKeyUp}
+        placeholder="Key test"
+      />
     );
 
     const input = screen.getByPlaceholderText('Key test');
@@ -130,12 +161,16 @@ describe('Input Component', () => {
       return (
         <div>
           <Input
+            id="input-1"
+            label="Input 1"
             value={value}
             onChange={e => setValue(e.target.value)}
             placeholder="Multi test"
             data-testid="input-1"
           />
           <Input
+            id="input-2"
+            label="Input 2"
             value={value}
             onChange={e => setValue(e.target.value)}
             placeholder="Multi test 2"
@@ -157,16 +192,183 @@ describe('Input Component', () => {
   });
 
   it('handles edge cases with empty values', () => {
-    renderWithTheme(<Input value="" onChange={() => {}} />);
+    renderWithTheme(<Input id="test-input" label="Test Input" value="" onChange={() => {}} />);
 
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
   });
 
   it('handles undefined and null values gracefully', () => {
-    renderWithTheme(<Input value={undefined} />);
+    renderWithTheme(<Input id="test-input" label="Test Input" value={undefined} />);
 
     const input = screen.getByRole('textbox');
     expect(input).toBeInTheDocument();
+  });
+
+  // New tests for error handling and tooltip functionality
+  it('renders error message when showError is true', () => {
+    renderWithTheme(
+      <Input
+        id="test-input"
+        label="Test Input"
+        showError={true}
+        errorMessage="This is an error message"
+        aria-invalid={true}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+
+    // Check if error message is present (it should be in a tooltip)
+    const errorMessages = screen.getAllByText('This is an error message');
+    expect(errorMessages.length).toBeGreaterThan(0);
+  });
+
+  it('does not render error message when showError is false', () => {
+    renderWithTheme(
+      <Input
+        id="test-input"
+        label="Test Input"
+        showError={false}
+        errorMessage="This error should not show"
+        aria-invalid={false}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-invalid', 'false');
+
+    // Error message should not be visible
+    expect(screen.queryByText('This error should not show')).not.toBeInTheDocument();
+  });
+
+  it('applies error styling when aria-invalid is true', () => {
+    renderWithTheme(
+      <Input
+        id="test-input"
+        label="Test Input"
+        aria-invalid={true}
+        showError={true}
+        errorMessage="Error message"
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+  });
+
+  it('renders with proper accessibility attributes', () => {
+    renderWithTheme(
+      <Input
+        id="test-input"
+        label="Test Input"
+        required={true}
+        aria-describedby="help-text"
+        aria-required={true}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveAttribute('aria-label', 'Test Input');
+    expect(input).toHaveAttribute('aria-describedby', 'help-text');
+    expect(input).toHaveAttribute('aria-required', 'true');
+    expect(input).toBeRequired();
+  });
+
+  it('renders visually hidden label for screen readers', () => {
+    renderWithTheme(<Input id="test-input" label="Test Input" />);
+
+    // The label should be accessible to screen readers
+    const label = screen.getByLabelText('Test Input');
+    expect(label).toBeInTheDocument();
+    expect(label).toHaveAttribute('id', 'test-input');
+  });
+
+  it('handles tooltip positioning and content', () => {
+    renderWithTheme(
+      <Input
+        id="test-input"
+        label="Test Input"
+        showError={true}
+        errorMessage="Tooltip error message"
+        aria-invalid={true}
+      />
+    );
+
+    const input = screen.getByRole('textbox');
+    const errorMessages = screen.getAllByText('Tooltip error message');
+
+    expect(input).toBeInTheDocument();
+    expect(errorMessages.length).toBeGreaterThan(0);
+  });
+
+  it('clears error state when user starts typing', async () => {
+    const user = userEvent.setup();
+    const TestComponent = () => {
+      const [value, setValue] = React.useState('');
+      const [showError, setShowError] = React.useState(true);
+      const [ariaInvalid, setAriaInvalid] = React.useState(true);
+
+      const handleChange = e => {
+        setValue(e.target.value);
+        if (e.target.value.length > 0) {
+          setShowError(false);
+          setAriaInvalid(false);
+        }
+      };
+
+      return (
+        <Input
+          id="test-input"
+          label="Test Input"
+          value={value}
+          onChange={handleChange}
+          showError={showError}
+          errorMessage="Initial error"
+          aria-invalid={ariaInvalid}
+        />
+      );
+    };
+
+    renderWithTheme(<TestComponent />);
+
+    const input = screen.getByRole('textbox');
+
+    // Initially should show error
+    expect(input).toHaveAttribute('aria-invalid', 'true');
+    expect(screen.getAllByText('Initial error').length).toBeGreaterThan(0);
+
+    // Type something to clear error
+    await user.type(input, 'test');
+
+    // Error should be cleared
+    expect(input).toHaveAttribute('aria-invalid', 'false');
+    expect(screen.queryByText('Initial error')).not.toBeInTheDocument();
+  });
+
+  it('handles disabled state with proper styling', () => {
+    renderWithTheme(<Input id="test-input" label="Test Input" disabled={true} />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toBeDisabled();
+  });
+
+  it('forwards all additional props correctly', () => {
+    renderWithTheme(
+      <Input
+        id="test-input"
+        label="Test Input"
+        data-testid="custom-input"
+        maxLength={50}
+        autoComplete="off"
+        spellCheck={false}
+      />
+    );
+
+    const input = screen.getByTestId('custom-input');
+    expect(input).toHaveAttribute('maxLength', '50');
+    expect(input).toHaveAttribute('autoComplete', 'off');
+    expect(input).toHaveAttribute('spellCheck', 'false');
   });
 });

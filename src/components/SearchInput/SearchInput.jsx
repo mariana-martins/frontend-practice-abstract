@@ -1,25 +1,41 @@
-import { Label, VisuallyHidden } from 'radix-ui';
-
 import React from 'react';
 
 import Input from '../Input';
 
-function SearchInput({ id, size, value, onChange }) {
+function SearchInput({
+  id,
+  label,
+  size,
+  value,
+  onChange,
+  type = 'text',
+  placeholder = 'Search',
+  required = false,
+  showError = false,
+  errorMessage = '',
+  'aria-describedby': ariaDescribedby = 'search-help',
+  'aria-invalid': ariaInvalid = false,
+  'aria-required': ariaRequired = false,
+  ...props
+}) {
   return (
-    <>
-      <VisuallyHidden.Root>
-        <Label.Root htmlFor={id}>Search</Label.Root>
-      </VisuallyHidden.Root>
-
-      <Input
-        id={id}
-        size={size}
-        type="text"
-        value={value}
-        placeholder={'Search'}
-        onChange={onChange}
-      />
-    </>
+    <Input
+      id={id}
+      label={label || 'Search'}
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder || 'Search'}
+      $size={size}
+      required={required}
+      showError={showError}
+      errorMessage={errorMessage}
+      aria-label={label || 'Search'}
+      aria-describedby={ariaDescribedby}
+      aria-invalid={ariaInvalid}
+      aria-required={ariaRequired}
+      {...props}
+    />
   );
 }
 
