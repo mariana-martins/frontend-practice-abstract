@@ -28,7 +28,11 @@ function Header() {
   };
   const handleSubmit = e => {
     e.preventDefault();
+    if (search === '') {
+      return alert('Please enter a search term');
+    }
     alert('Search: ' + search);
+    setSearch('');
   };
   return (
     <StyledHeader>

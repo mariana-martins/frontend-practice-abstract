@@ -1,0 +1,143 @@
+import userEvent from '@testing-library/user-event';
+
+import React from 'react';
+
+import { renderWithTheme, screen } from '../../../test-utils';
+import Header from '../Header';
+
+// Mock the alert function
+const mockAlert = jest.fn();
+global.alert = mockAlert;
+
+describe('Header Component', () => {
+  beforeEach(() => {
+    mockAlert.mockClear();
+  });
+
+  it('renders header with all main elements', () => {
+    renderWithTheme(<Header />);
+
+    // Check if header element exists
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+
+    // Check if logo is rendered
+    expect(screen.getByAltText('Logo')).toBeInTheDocument();
+    expect(screen.getByText('Help Center')).toBeInTheDocument();
+
+    // Check if search input is rendered
+    expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
+
+    // Check if buttons are rendered
+    expect(screen.getByRole('button', { name: /submit a request/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
+  });
+
+  it('renders logo with correct link', () => {
+    renderWithTheme(<Header />);
+
+    const logoLink = screen.getByRole('link');
+    expect(logoLink).toHaveAttribute('href', 'https://www.goabstract.com');
+    expect(logoLink).toHaveTextContent('Help Center');
+  });
+
+  it('handles search input changes', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+
+    // Type in search input
+    await user.type(searchInput, 'test search');
+
+    // Check if value is updated
+    expect(searchInput).toHaveValue('test search');
+  });
+
+  it('handles form submission with search value', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    const submitButton = screen.getByRole('button', { name: /submit a request/i });
+
+    // Type in search input
+    await user.type(searchInput, 'test query');
+
+    // Submit the form
+    await user.click(submitButton);
+
+    // Check if alert was called with correct value
+    expect(mockAlert).toHaveBeenCalledWith('Search: test query');
+
+    // Check if search input is cleared after submission
+    expect(searchInput).toHaveValue('');
+  });
+
+  it('handles form submission via Enter key', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+
+    // Type in search input
+    await user.type(searchInput, 'enter test');
+
+    // Press Enter key
+    await user.keyboard('{Enter}');
+
+    // Check if alert was called
+    expect(mockAlert).toHaveBeenCalledWith('Search: enter test');
+
+    // Check if search input is cleared after submission
+    expect(searchInput).toHaveValue('');
+  });
+
+  it('shows validation message for empty search submission', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const submitButton = screen.getByRole('button', { name: /submit a request/i });
+
+    // Submit form without typing anything
+    await user.click(submitButton);
+
+    // Check if validation alert was shown
+    expect(mockAlert).toHaveBeenCalledWith('Please enter a search term');
+  });
+
+  it('shows validation message for empty search via Enter key', async () => {
+    const user = userEvent.setup();
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+
+    // Focus on the input and press Enter key without typing anything
+    await user.click(searchInput);
+    await user.keyboard('{Enter}');
+
+    // Check if validation alert was shown
+    expect(mockAlert).toHaveBeenCalledWith('Please enter a search term');
+  });
+
+  it('has correct button variants and sizes', () => {
+    renderWithTheme(<Header />);
+
+    const submitButton = screen.getByRole('button', { name: /submit a request/i });
+    const signInButton = screen.getByRole('button', { name: /sign in/i });
+
+    // Both buttons should be present
+    expect(submitButton).toBeInTheDocument();
+    expect(signInButton).toBeInTheDocument();
+  });
+
+  it('has accessible search input with proper labeling', () => {
+    renderWithTheme(<Header />);
+
+    const searchInput = screen.getByPlaceholderText('Search');
+    expect(searchInput).toHaveAttribute('id', 'header-search-input');
+
+    // Check if there's a label for the input (even if visually hidden)
+    const label = screen.getByText('Search');
+    expect(label).toBeInTheDocument();
+  });
+});
