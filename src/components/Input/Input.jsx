@@ -1,14 +1,9 @@
 import * as Label from '@radix-ui/react-label';
+import * as Tooltip from '@radix-ui/react-tooltip';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import styled, { css } from 'styled-components';
 
-
-
 import React from 'react';
-
-
-
-
 
 const inputSizes = {
   lg: css`
@@ -38,13 +33,6 @@ export const StyledInput = styled.input`
     border-color: ${({ theme }) => theme.colors.brand.primary};
   }
 
-  /* Disabled state */
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    background-color: ${({ theme }) => theme.colors.neutral?.light || '#f5f5f5'};
-  }
-
   /* Error state */
   &[aria-invalid='true'] {
     border-color: ${({ theme }) => theme.colors.brand.error};
@@ -58,9 +46,20 @@ export const StyledInput = styled.input`
   ${({ $size }) => inputSizes[$size] || inputSizes.lg}
 `;
 
-const StyledErrorMessage = styled.span`
-  color: ${({ theme }) => theme.colors.brand.error};
+const StyledTooltipContent = styled(Tooltip.Content)`
+  background-color: ${({ theme }) => theme.colors.brand.error};
+  color: white;
+  padding: ${({ theme }) => theme.spacing[2]} ${({ theme }) => theme.spacing[3]};
+  border-radius: 4px;
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  z-index: 50;
+`;
+
+const StyledTooltipArrow = styled(Tooltip.Arrow)`
+  fill: ${({ theme }) => theme.colors.brand.error};
 `;
 
 const Box = styled.div`
@@ -90,21 +89,34 @@ function Input({
       <VisuallyHidden.Root>
         <Label.Root htmlFor={id}>{label}</Label.Root>
       </VisuallyHidden.Root>
-      <StyledInput
-        id={id}
-        type={type}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        $size={size}
-        required={required}
-        aria-label={label}
-        aria-describedby={ariaDescribedby}
-        aria-invalid={ariaInvalid}
-        aria-required={ariaRequired}
-        {...props}
-      />
-      {showError && <StyledErrorMessage id="search-help">{errorMessage}</StyledErrorMessage>}
+      <Tooltip.Provider>
+        <Tooltip.Root open={showError}>
+          <Tooltip.Trigger asChild>
+            <StyledInput
+              id={id}
+              type={type}
+              value={value}
+              onChange={onChange}
+              placeholder={placeholder}
+              $size={size}
+              required={required}
+              aria-label={label}
+              aria-describedby={ariaDescribedby}
+              aria-invalid={ariaInvalid}
+              aria-required={ariaRequired}
+              {...props}
+            />
+          </Tooltip.Trigger>
+          {showError && (
+            <Tooltip.Portal>
+              <StyledTooltipContent side="top" align="center">
+                {errorMessage}
+                <StyledTooltipArrow />
+              </StyledTooltipContent>
+            </Tooltip.Portal>
+          )}
+        </Tooltip.Root>
+      </Tooltip.Provider>
     </Box>
   );
 }
