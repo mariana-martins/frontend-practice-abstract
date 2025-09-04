@@ -69,7 +69,10 @@ describe('SearchInput Component', () => {
     expect(searchInput).toHaveValue('initial');
 
     // Simulate external value change
-    rerenderWithTheme(rerender, <SearchInput {...defaultProps} value="updated" onChange={mockOnChange} />);
+    rerenderWithTheme(
+      rerender,
+      <SearchInput {...defaultProps} value="updated" onChange={mockOnChange} />
+    );
 
     expect(searchInput).toHaveValue('updated');
   });
