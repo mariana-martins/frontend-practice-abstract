@@ -97,12 +97,19 @@ describe('Header Component', () => {
     renderWithTheme(<Header />);
 
     const submitButton = screen.getByRole('button', { name: /submit a request/i });
+    const searchInput = screen.getByPlaceholderText('Search');
 
     // Submit form without typing anything
     await user.click(submitButton);
 
-    // Check if validation alert was shown
-    expect(mockAlert).toHaveBeenCalledWith('Please enter a search term');
+    // Check if alert was NOT called (since we now use state-based error handling)
+    expect(mockAlert).not.toHaveBeenCalledWith('Please enter a search term');
+    
+    // Check that the search input still has no value (wasn't cleared)
+    expect(searchInput).toHaveValue('');
+    
+    // Check that the input has aria-invalid attribute set to true
+    expect(searchInput).toHaveAttribute('aria-invalid', 'true');
   });
 
   it('shows validation message for empty search via Enter key', async () => {
@@ -115,8 +122,14 @@ describe('Header Component', () => {
     await user.click(searchInput);
     await user.keyboard('{Enter}');
 
-    // Check if validation alert was shown
-    expect(mockAlert).toHaveBeenCalledWith('Please enter a search term');
+    // Check if alert was NOT called (since we now use state-based error handling)
+    expect(mockAlert).not.toHaveBeenCalledWith('Please enter a search term');
+    
+    // Check that the search input still has no value (wasn't cleared)
+    expect(searchInput).toHaveValue('');
+    
+    // Check that the input has aria-invalid attribute set to true
+    expect(searchInput).toHaveAttribute('aria-invalid', 'true');
   });
 
   it('has correct button variants and sizes', () => {

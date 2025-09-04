@@ -10,6 +10,7 @@ export const theme = {
       white: '#ffffff', // Pure white
       placeholder: '#999', // Placeholder text color
       border: '#dee2e6', // Border color
+      error: '#dc3545', // Error color
     },
   },
 

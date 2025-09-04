@@ -23,16 +23,47 @@ const Box = styled.div`
 
 function Header() {
   const [search, setSearch] = useState('');
+  const [searchError, setSearchError] = useState('');
+  const [showError, setShowError] = useState(false);
+
   const handleSearch = e => {
     setSearch(e.target.value);
+    // Clear error when user starts typing
+    if (showError) {
+      setShowError(false);
+      setSearchError('');
+    }
   };
+
   const handleSubmit = e => {
     e.preventDefault();
-    if (search === '') {
-      return alert('Please enter a search term');
+
+    try {
+      // Trim whitespace and validate input
+      const trimmedSearch = search.trim();
+
+      if (!trimmedSearch) {
+        setSearchError('Please enter a search term');
+        setShowError(true);
+        return;
+      }
+
+      // Additional validation for search term length
+      if (trimmedSearch.length < 4) {
+        setSearchError('Search term must be at least 4 characters long');
+        setShowError(true);
+        return;
+      }
+
+      setSearch('');
+      setShowError(false);
+      setSearchError('');
+      alert('Search: ' + trimmedSearch);
+    } catch (error) {
+      console.error('Error in handleSubmit:', error);
+      setSearchError('An error occurred. Please try again.');
+      setShowError(true);
     }
-    alert('Search: ' + search);
-    setSearch('');
   };
   return (
     <StyledHeader>
@@ -42,9 +73,13 @@ function Header() {
           <Box>
             <SearchInput
               size="lg"
-              id={'header-search-input'}
+              id="header-search-input"
               value={search}
               onChange={handleSearch}
+              type="text"
+              showError={showError}
+              errorMessage={searchError}
+              aria-invalid={showError}
             />
             <Button variant="secondary" size="lg">
               Submit a request
