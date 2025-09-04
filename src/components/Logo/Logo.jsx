@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import React from 'react';
+
 import logoImage from '../../assets/logo.svg';
 
 const StyledLink = styled.a`

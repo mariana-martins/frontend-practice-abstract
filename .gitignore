@@ -4,6 +4,9 @@ node_modules/
 # Build outputs
 dist/
 
+# Test coverage
+coverage/
+
 # Local environment files
 .env
 .env.*.local
