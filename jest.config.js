@@ -50,6 +50,11 @@ export default {
   // Coverage reporters
   coverageReporters: ['text', 'lcov', 'html'],
 
+  // Transform node_modules that use ES modules
+  transformIgnorePatterns: [
+    'node_modules/(?!(feather-icons-react)/)',
+  ],
+
   // Clear mocks between tests
   clearMocks: true,
 

@@ -1,9 +1,20 @@
 import * as Label from '@radix-ui/react-label';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { ArrowRight } from 'feather-icons-react';
 import styled, { css } from 'styled-components';
 
 import React from 'react';
+
+const Container = styled.div`
+  --max-width: 720px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: var(--max-width);
+`;
 
 const inputSizes = {
   lg: css`
@@ -24,10 +35,10 @@ const inputSizes = {
     }
   `,
   xl: css`
-    max-width: 720px;
     padding: ${({ theme }) => theme.spacing[4]};
     border-radius: 4px;
     border-color: ${({ theme }) => theme.colors.brand.black};
+    box-shadow: 0 9px 14px 0 rgba(0, 0, 0, 0.1);
 
     &:focus,
     &:active,
@@ -78,6 +89,24 @@ const StyledTooltipArrow = styled(Tooltip.Arrow)`
   fill: ${({ theme }) => theme.colors.brand.error};
 `;
 
+const InputIcon = styled(ArrowRight)`
+  position: absolute;
+  color: ${({ theme }) => theme.colors.brand.black};
+  right: 2%;
+  top: 18px;
+  transition: color 0.2s ease;
+  pointer-events: none;
+
+  /* Icon hover styles when input is hovered */
+  ${StyledInput}:hover ~ & {
+    color: ${({ theme }) => theme.colors.brand.primary};
+  }
+
+  ${StyledInput}:focus ~ & {
+    color: ${({ theme }) => theme.colors.brand.primary};
+  }
+`;
+
 function Input({
   id,
   label,
@@ -96,7 +125,7 @@ function Input({
   ...props
 }) {
   return (
-    <>
+    <Container>
       <VisuallyHidden.Root>
         <Label.Root htmlFor={id}>{label}</Label.Root>
       </VisuallyHidden.Root>
@@ -128,7 +157,8 @@ function Input({
           )}
         </Tooltip.Root>
       </Tooltip.Provider>
-    </>
+      {showIcon && <InputIcon size={28} />}
+    </Container>
   );
 }
 
