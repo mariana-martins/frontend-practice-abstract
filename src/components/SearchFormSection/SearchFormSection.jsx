@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import Input from '../Input';
 
@@ -23,23 +23,75 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.colors.brand.black};
 `;
 
+const Form = styled.form`
+  width: 100%;
+  max-width: 720px;
+`;
+
 function SearchFormSection() {
+  const [search, setSearch] = useState('');
+  const [searchError, setSearchError] = useState('');
+  const [showError, setShowError] = useState(false);
+
+  const handleSearch = e => {
+    setSearch(e.target.value);
+    // Clear error when user starts typing
+    if (showError) {
+      setShowError(false);
+      setSearchError('');
+    }
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    try {
+      // Trim whitespace and validate input
+      const trimmedSearch = search.trim();
+
+      if (!trimmedSearch) {
+        setSearchError('Please enter a search term');
+        setShowError(true);
+        return;
+      }
+
+      // Additional validation for search term length
+      if (trimmedSearch.length < 4) {
+        setSearchError('Search term must be at least 4 characters long');
+        setShowError(true);
+        return;
+      }
+
+      setSearch('');
+      setShowError(false);
+      setSearchError('');
+      alert('Search: ' + trimmedSearch);
+    } catch (error) {
+      console.error('Error in handleSubmit:', error);
+      setSearchError('An error occurred. Please try again.');
+      setShowError(true);
+    }
+  };
   return (
     <StyledSearchFormSection>
       <Title>How can we help?</Title>
-      <Input
-        id={'main-search-input'}
-        type={'text'}
-        value={''}
-        onChange={() => {}}
-        placeholder={'Search'}
-        size={'xl'}
-        showIcon={true}
-        aria-label={'Search'}
-        aria-describedby={'main-search-input'}
-        aria-invalid={false}
-        aria-required={false}
-      />
+      <Form onSubmit={handleSubmit}>
+        <Input
+          id={'main-search-input'}
+          type={'text'}
+          value={search}
+          onChange={handleSearch}
+          placeholder={'Search'}
+          size={'xl'}
+          showIcon={true}
+          aria-label={'Search'}
+          aria-describedby={'main-search-input'}
+          aria-invalid={showError}
+          aria-required={false}
+          showError={showError}
+          errorMessage={searchError}
+        />
+      </Form>
     </StyledSearchFormSection>
   );
 }

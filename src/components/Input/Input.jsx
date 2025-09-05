@@ -7,13 +7,7 @@ import styled, { css } from 'styled-components';
 import React from 'react';
 
 const Container = styled.div`
-  --max-width: 720px;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: var(--max-width);
 `;
 
 const inputSizes = {
@@ -62,11 +56,13 @@ export const StyledInput = styled.input`
 
   /* Error state */
   &[aria-invalid='true'] {
+    outline-color: ${({ theme }) => theme.colors.brand.error};
     border-color: ${({ theme }) => theme.colors.brand.error};
   }
 
   &[aria-invalid='true']:focus {
     outline-color: ${({ theme }) => theme.colors.brand.error};
+    border-color: ${({ theme }) => theme.colors.brand.error};
   }
 
   /* Sizes */
@@ -104,6 +100,10 @@ const InputIcon = styled(ArrowRight)`
 
   ${StyledInput}:focus ~ & {
     color: ${({ theme }) => theme.colors.brand.primary};
+  }
+
+  ${StyledInput}[aria-invalid='true']:focus ~ & {
+    color: ${({ theme }) => theme.colors.brand.error};
   }
 `;
 
