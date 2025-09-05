@@ -75,7 +75,7 @@ function SearchFormSection() {
   return (
     <StyledSearchFormSection>
       <Title>How can we help?</Title>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} role="form">
         <Input
           id={'main-search-input'}
           type={'text'}

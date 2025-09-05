@@ -21,6 +21,7 @@ const inputSizes = {
       box-shadow 0.2s ease;
 
     &:focus,
+    &:focus-visible,
     &:active,
     &:hover {
       outline: 2px solid ${({ theme }) => theme.colors.brand.primary};
@@ -35,6 +36,7 @@ const inputSizes = {
     box-shadow: 0 9px 14px 0 rgba(0, 0, 0, 0.1);
 
     &:focus,
+    &:focus-visible,
     &:active,
     &:hover {
       border-color: ${({ theme }) => theme.colors.brand.primary};
@@ -88,8 +90,9 @@ const StyledTooltipArrow = styled(Tooltip.Arrow)`
 const InputIcon = styled(ArrowRight)`
   position: absolute;
   color: ${({ theme }) => theme.colors.brand.black};
-  right: 2%;
-  top: 18px;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
   transition: color 0.2s ease;
   pointer-events: none;
 
@@ -149,7 +152,7 @@ function Input({
           </Tooltip.Trigger>
           {showError && (
             <Tooltip.Portal>
-              <StyledTooltipContent side="top" align="center">
+              <StyledTooltipContent side="top" align="center" role="alert" aria-live="polite">
                 {errorMessage}
                 <StyledTooltipArrow />
               </StyledTooltipContent>
@@ -157,7 +160,7 @@ function Input({
           )}
         </Tooltip.Root>
       </Tooltip.Provider>
-      {showIcon && <InputIcon size={28} />}
+      {showIcon && <InputIcon size={28} aria-hidden="true" role="presentation" />}
     </Container>
   );
 }
