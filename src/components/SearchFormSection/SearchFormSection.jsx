@@ -2,31 +2,33 @@ import styled from 'styled-components';
 
 import React, { useState } from 'react';
 
-import Button from '../Button';
 import Input from '../Input';
-import Logo from '../Logo/Logo';
 
-const StyledHeader = styled.header`
+const StyledSearchFormSection = styled.section`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding-block: ${({ theme }) => theme.spacing[5]};
-  padding-inline: ${({ theme }) => theme.spacing[18]};
-  background-color: ${({ theme }) => theme.colors.brand.black};
+  justify-content: center;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.brand.secondary};
+  padding-inline: ${({ theme }) => theme.spacing[8]};
+  padding-top: ${({ theme }) => theme.spacing[20]};
+  padding-bottom: ${({ theme }) => theme.spacing[29]};
+`;
+
+const Title = styled.h1`
+  margin-bottom: ${({ theme }) => theme.spacing[4]};
+  font-family: ${({ theme }) => theme.typography.fontFamily.sans};
+  font-size: ${({ theme }) => theme.typography.fontSize['8xl']};
+  color: ${({ theme }) => theme.colors.brand.black};
 `;
 
 const Form = styled.form`
-  margin-left: auto;
-  margin-right: ${({ theme }) => theme.spacing[4]};
-`;
-
-const Box = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing[4]};
   width: 100%;
+  max-width: 720px;
 `;
 
-function Header() {
+function SearchFormSection() {
   const [search, setSearch] = useState('');
   const [searchError, setSearchError] = useState('');
   const [showError, setShowError] = useState(false);
@@ -71,34 +73,27 @@ function Header() {
     }
   };
   return (
-    <StyledHeader>
-      <Logo />
-      <Form onSubmit={handleSubmit}>
-        <Box>
-          <Input
-            size="lg"
-            id="header-search-input"
-            label="Search"
-            value={search}
-            onChange={handleSearch}
-            type="text"
-            showError={showError}
-            errorMessage={searchError}
-            placeholder={'Search'}
-            aria-invalid={showError}
-            aria-label="Search"
-            aria-describedby="header-search-input"
-          />
-          <Button variant="secondary" size="lg">
-            Submit a request
-          </Button>
-        </Box>
+    <StyledSearchFormSection>
+      <Title>How can we help?</Title>
+      <Form onSubmit={handleSubmit} role="form">
+        <Input
+          id={'main-search-input'}
+          type={'text'}
+          value={search}
+          onChange={handleSearch}
+          placeholder={'Search'}
+          size={'xl'}
+          showIcon={true}
+          aria-label={'Search'}
+          aria-describedby={'main-search-input'}
+          aria-invalid={showError}
+          aria-required={false}
+          showError={showError}
+          errorMessage={searchError}
+        />
       </Form>
-      <Button variant="primary" size="lg">
-        Sign In
-      </Button>
-    </StyledHeader>
+    </StyledSearchFormSection>
   );
 }
 
-export default Header;
+export default SearchFormSection;

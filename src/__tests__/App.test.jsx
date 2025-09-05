@@ -26,11 +26,11 @@ describe('App Component', () => {
 
     // Check that the Header contains its expected child components
     const logo = screen.getByRole('link');
-    const searchInput = screen.getByRole('textbox');
+    const searchInputs = screen.getAllByRole('textbox');
     const buttons = screen.getAllByRole('button');
 
     expect(logo).toBeInTheDocument();
-    expect(searchInput).toBeInTheDocument();
+    expect(searchInputs).toHaveLength(2); // Header search and main search
     expect(buttons).toHaveLength(2); // Submit a request and Sign In buttons
   });
 
@@ -40,12 +40,12 @@ describe('App Component', () => {
     // Verify the complete application structure
     const header = screen.getByRole('banner');
     const logo = screen.getByRole('link');
-    const searchInput = screen.getByRole('textbox');
+    const searchInputs = screen.getAllByRole('textbox');
     const buttons = screen.getAllByRole('button');
 
     expect(header).toBeInTheDocument();
     expect(logo).toBeInTheDocument();
-    expect(searchInput).toBeInTheDocument();
+    expect(searchInputs).toHaveLength(2); // Header search and main search
     expect(buttons).toHaveLength(2);
   });
 
@@ -58,11 +58,11 @@ describe('App Component', () => {
     // Verify elements are still present after re-render
     const header = screen.getByRole('banner');
     const logo = screen.getByRole('link');
-    const searchInput = screen.getByRole('textbox');
+    const searchInputs = screen.getAllByRole('textbox');
 
     expect(header).toBeInTheDocument();
     expect(logo).toBeInTheDocument();
-    expect(searchInput).toBeInTheDocument();
+    expect(searchInputs).toHaveLength(2); // Header search and main search
   });
 
   it('renders with correct theme provider setup', () => {
@@ -75,9 +75,9 @@ describe('App Component', () => {
 
     // Verify that styled-components are working (no theme errors)
     const logo = screen.getByRole('link');
-    const searchInput = screen.getByRole('textbox');
+    const searchInputs = screen.getAllByRole('textbox');
 
     expect(logo).toBeInTheDocument();
-    expect(searchInput).toBeInTheDocument();
+    expect(searchInputs).toHaveLength(2); // Header search and main search
   });
 });
