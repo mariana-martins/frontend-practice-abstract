@@ -8,29 +8,45 @@ import React from 'react';
 const inputSizes = {
   lg: css`
     padding: ${({ theme }) => theme.spacing[2.5]} ${({ theme }) => theme.spacing[5]};
-    font-size: ${({ theme }) => theme.typography.fontSize.xl};
     border-radius: 8px;
     border-color: ${({ theme }) => theme.colors.brand.border};
     font-weight: ${({ theme }) => theme.typography.fontWeight.base};
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 2px solid ${({ theme }) => theme.colors.brand.primary};
+      outline-offset: 2px;
+      border-color: ${({ theme }) => theme.colors.brand.primary};
+    }
+  `,
+  xl: css`
+    max-width: 720px;
+    padding: ${({ theme }) => theme.spacing[4]};
+    border-radius: 4px;
+    border-color: ${({ theme }) => theme.colors.brand.black};
+
+    &:focus,
+    &:active,
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.brand.primary};
+      outline: 1px solid ${({ theme }) => theme.colors.brand.primary};
+    }
   `,
 };
 
 export const StyledInput = styled.input`
   font-family: ${({ theme }) => theme.typography.fontFamily.sans};
+  font-size: ${({ theme }) => theme.typography.fontSize.xl};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.base};
   border: 1px solid;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  width: 100%;
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.brand.placeholder};
-  }
-
-  /* Focus states for accessibility */
-  &:focus {
-    outline: 2px solid ${({ theme }) => theme.colors.brand.primary};
-    outline-offset: 2px;
-    border-color: ${({ theme }) => theme.colors.brand.primary};
   }
 
   /* Error state */
@@ -62,12 +78,6 @@ const StyledTooltipArrow = styled(Tooltip.Arrow)`
   fill: ${({ theme }) => theme.colors.brand.error};
 `;
 
-const Box = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
 function Input({
   id,
   label,
@@ -77,6 +87,7 @@ function Input({
   placeholder,
   size = 'lg',
   required = false,
+  showIcon = false,
   'aria-describedby': ariaDescribedby,
   'aria-invalid': ariaInvalid,
   'aria-required': ariaRequired,
@@ -85,7 +96,7 @@ function Input({
   ...props
 }) {
   return (
-    <Box>
+    <>
       <VisuallyHidden.Root>
         <Label.Root htmlFor={id}>{label}</Label.Root>
       </VisuallyHidden.Root>
@@ -117,7 +128,7 @@ function Input({
           )}
         </Tooltip.Root>
       </Tooltip.Provider>
-    </Box>
+    </>
   );
 }
 

@@ -3,22 +3,27 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 
 import Button from '../Button';
+import Input from '../Input';
 import Logo from '../Logo/Logo';
-import SearchInput from '../SearchInput';
 
 const StyledHeader = styled.header`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-block: ${({ theme }) => theme.spacing[5]};
   padding-inline: ${({ theme }) => theme.spacing[18]};
   background-color: ${({ theme }) => theme.colors.brand.black};
 `;
 
+const Form = styled.form`
+  margin-left: auto;
+  margin-right: ${({ theme }) => theme.spacing[4]};
+`;
+
 const Box = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing[4]};
+  width: 100%;
 `;
 
 function Header() {
@@ -68,28 +73,30 @@ function Header() {
   return (
     <StyledHeader>
       <Logo />
-      <Box>
-        <form onSubmit={handleSubmit}>
-          <Box>
-            <SearchInput
-              size="lg"
-              id="header-search-input"
-              value={search}
-              onChange={handleSearch}
-              type="text"
-              showError={showError}
-              errorMessage={searchError}
-              aria-invalid={showError}
-            />
-            <Button variant="secondary" size="lg">
-              Submit a request
-            </Button>
-          </Box>
-        </form>
-        <Button variant="primary" size="lg">
-          Sign In
-        </Button>
-      </Box>
+      <Form onSubmit={handleSubmit}>
+        <Box>
+          <Input
+            size="lg"
+            id="header-search-input"
+            label="Search"
+            value={search}
+            onChange={handleSearch}
+            type="text"
+            showError={showError}
+            errorMessage={searchError}
+            placeholder={'Search'}
+            aria-invalid={showError}
+            aria-label="Search"
+            aria-describedby="header-search-input"
+          />
+          <Button variant="secondary" size="lg">
+            Submit a request
+          </Button>
+        </Box>
+      </Form>
+      <Button variant="primary" size="lg">
+        Sign In
+      </Button>
     </StyledHeader>
   );
 }

@@ -39,8 +39,9 @@ export const theme = {
       '5xl': '3rem', // 48px
       '6xl': '3.75rem', // 60px
       '7xl': '4.5rem', // 72px
-      '8xl': '6rem', // 96px
-      '9xl': '8rem', // 128px
+      '8xl': '5rem', // 80px
+      '9xl': '6rem', // 96px
+      '10xl': '8rem', // 128px
     },
 
     fontWeight: {
@@ -79,6 +80,7 @@ export const theme = {
     20: '5rem', // 80px
     24: '6rem', // 96px
     28: '7rem', // 112px
+    29: '7.25rem', // 116px
     32: '8rem', // 128px
     36: '9rem', // 144px
     40: '10rem', // 160px

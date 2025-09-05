@@ -49,6 +49,7 @@ const buttonSizes = {
 };
 
 export const StyledButton = styled.button`
+  min-width: fit-content;
   display: inline-flex;
   align-items: center;
   justify-content: center;
