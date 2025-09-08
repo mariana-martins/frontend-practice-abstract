@@ -25,7 +25,7 @@ describe('App Component', () => {
     expect(header).toBeInTheDocument();
 
     // Check that the Header contains its expected child components
-    const logo = screen.getByRole('link');
+    const logo = screen.getByRole('link', { name: /logo/i });
     const searchInputs = screen.getAllByRole('textbox');
     const buttons = screen.getAllByRole('button');
 
@@ -39,7 +39,7 @@ describe('App Component', () => {
 
     // Verify the complete application structure
     const header = screen.getByRole('banner');
-    const logo = screen.getByRole('link');
+    const logo = screen.getByRole('link', { name: /logo/i });
     const searchInputs = screen.getAllByRole('textbox');
     const buttons = screen.getAllByRole('button');
 
@@ -57,7 +57,7 @@ describe('App Component', () => {
 
     // Verify elements are still present after re-render
     const header = screen.getByRole('banner');
-    const logo = screen.getByRole('link');
+    const logo = screen.getByRole('link', { name: /logo/i });
     const searchInputs = screen.getAllByRole('textbox');
 
     expect(header).toBeInTheDocument();
@@ -74,7 +74,7 @@ describe('App Component', () => {
     expect(header).toBeInTheDocument();
 
     // Verify that styled-components are working (no theme errors)
-    const logo = screen.getByRole('link');
+    const logo = screen.getByRole('link', { name: /logo/i });
     const searchInputs = screen.getAllByRole('textbox');
 
     expect(logo).toBeInTheDocument();
