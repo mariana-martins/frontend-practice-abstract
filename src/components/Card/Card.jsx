@@ -2,10 +2,9 @@ import styled from 'styled-components';
 
 import React from 'react';
 
-const StyledCard = styled.div`
+const StyledCard = styled.article`
   display: flex;
   flex-direction: row;
-  gap: ${({ theme }) => theme.spacing[4]};
   padding-top: ${({ theme }) => theme.spacing[12]};
   padding-bottom: ${({ theme }) => theme.spacing[4]};
 `;
@@ -17,9 +16,10 @@ const CardContent = styled.div`
 
 const Image = styled.img`
   flex: 1;
-  width: 50%;
+  width: 100%;
   height: auto;
-  max-height: 120px;
+  max-height: 80px;
+  object-fit: contain;
 `;
 
 const Title = styled.h3`
@@ -44,16 +44,47 @@ const Link = styled.a`
   &:hover {
     text-decoration: underline;
   }
+
+  &:focus {
+    outline: 2px solid ${({ theme }) => theme.colors.brand.primary};
+    outline-offset: 2px;
+    background-color: ${({ theme }) => theme.colors.brand.primary}10;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.brand.primary};
+    outline-offset: 2px;
+  }
 `;
 
-function Card({ image, title, description, link, linkText, ...props }) {
+function Card({ image, title, description, link, linkText = 'Learn more', ariaLabel, ...props }) {
+  const cardId = `card-${title.toLowerCase().replace(/\s+/g, '-')}`;
+  const linkId = `${cardId}-link`;
+  const descriptionId = `${cardId}-description`;
+
   return (
-    <StyledCard {...props}>
-      <Image src={image} alt={title} />
+    <StyledCard
+      {...props}
+      role="article"
+      aria-labelledby={`${cardId}-title`}
+      aria-describedby={descriptionId}
+    >
+      <Image src={image} alt={title} role="presentation" aria-hidden="true" />
       <CardContent>
-        <Title>{title}</Title>
-        <Description>{description}</Description>
-        <Link href={link}>Learn more →</Link>
+        <Title id={`${cardId}-title`}>{title}</Title>
+        <Description id={descriptionId}>{description}</Description>
+        <Link
+          href={link}
+          id={linkId}
+          aria-label={ariaLabel || `${linkText} about ${title}`}
+          aria-describedby={descriptionId}
+        >
+          {linkText} →
+        </Link>
       </CardContent>
     </StyledCard>
   );

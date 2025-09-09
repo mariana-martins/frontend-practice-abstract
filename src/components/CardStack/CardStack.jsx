@@ -5,7 +5,7 @@ import React from 'react';
 import data from '../../data';
 import Card from '../Card';
 
-const Stack = styled.div`
+const Stack = styled.section`
   display: grid;
   padding-inline: ${({ theme }) => theme.spacing[4]};
   padding-block: ${({ theme }) => theme.spacing[16]};
@@ -18,13 +18,15 @@ const Stack = styled.div`
 function CardStack() {
   return (
     <Stack>
-      {data.cards.map(card => (
+      {data.cards.map((card, index) => (
         <Card
           key={card.id}
           image={card.image}
           title={card.title}
           description={card.description}
           link={card.link}
+          tabIndex={0}
+          aria-label={`Article ${index + 1}: ${card.title}`}
         />
       ))}
     </Stack>
