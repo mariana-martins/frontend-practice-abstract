@@ -2,7 +2,8 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import React from 'react';
 
-import CardStack from './components/CardStack/CardStack';
+import CardStack from './components/CardStack/';
+import Footer from './components/Footer/';
 import Header from './components/Header';
 import SearchFormSection from './components/SearchFormSection';
 import theme from './theme';
@@ -25,6 +26,7 @@ function App() {
           <SearchFormSection />
           <CardStack />
         </main>
+        <Footer />
       </Stack>
     </ThemeProvider>
   );
