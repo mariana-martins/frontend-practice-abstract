@@ -17,14 +17,7 @@ export const theme = {
   // Typography
   typography: {
     fontFamily: {
-      sans: [
-        'GT America Standard',
-        'Inter',
-        'Roboto',
-        'Helvetica Neue',
-        'Arial',
-        'sans-serif',
-      ].join(', '),
+      sans: ['Inter', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'].join(', '),
     },
 
     fontSize: {
