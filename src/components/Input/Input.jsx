@@ -2,6 +2,7 @@ import * as Label from '@radix-ui/react-label';
 import * as Tooltip from '@radix-ui/react-tooltip';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { ArrowRight } from 'feather-icons-react';
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 import React from 'react';
@@ -113,18 +114,18 @@ const InputIcon = styled(ArrowRight)`
 function Input({
   id,
   label,
-  type = 'text',
+  type,
   value,
   onChange,
   placeholder,
-  size = 'lg',
-  required = false,
-  showIcon = false,
+  size,
+  required,
+  showIcon,
   'aria-describedby': ariaDescribedby,
   'aria-invalid': ariaInvalid,
   'aria-required': ariaRequired,
-  showError = false,
-  errorMessage = '',
+  showError,
+  errorMessage,
   ...props
 }) {
   return (
@@ -164,5 +165,35 @@ function Input({
     </Container>
   );
 }
+
+Input.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
+  size: PropTypes.oneOf(['lg', 'xl']),
+  required: PropTypes.bool,
+  showIcon: PropTypes.bool,
+  'aria-describedby': PropTypes.string,
+  'aria-invalid': PropTypes.bool,
+  'aria-required': PropTypes.bool,
+  showError: PropTypes.bool,
+  errorMessage: PropTypes.string,
+};
+
+Input.defaultProps = {
+  type: 'text',
+  placeholder: undefined,
+  size: 'lg',
+  required: false,
+  showIcon: false,
+  'aria-describedby': undefined,
+  'aria-invalid': false,
+  'aria-required': false,
+  showError: false,
+  errorMessage: '',
+};
 
 export default Input;

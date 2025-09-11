@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import React from 'react';
@@ -61,7 +62,7 @@ const Link = styled.a`
   }
 `;
 
-function Card({ image, title, description, link, linkText = 'Learn more', ariaLabel, ...props }) {
+function Card({ image, title, description, link, linkText, ariaLabel, ...props }) {
   const cardId = `card-${title.toLowerCase().replace(/\s+/g, '-')}`;
   const linkId = `${cardId}-link`;
   const descriptionId = `${cardId}-description`;
@@ -89,5 +90,19 @@ function Card({ image, title, description, link, linkText = 'Learn more', ariaLa
     </StyledCard>
   );
 }
+
+Card.propTypes = {
+  image: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
+  linkText: PropTypes.string,
+  ariaLabel: PropTypes.string,
+};
+
+Card.defaultProps = {
+  linkText: 'Learn more',
+  ariaLabel: undefined,
+};
 
 export default Card;

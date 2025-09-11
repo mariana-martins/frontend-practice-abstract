@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 import React from 'react';
@@ -70,6 +71,17 @@ const Button = ({ children, variant, size, ...props }) => {
       {children}
     </StyledButton>
   );
+};
+
+Button.propTypes = {
+  children: PropTypes.node.isRequired,
+  variant: PropTypes.oneOf(['primary', 'secondary']),
+  size: PropTypes.oneOf(['md', 'lg']),
+};
+
+Button.defaultProps = {
+  variant: 'primary',
+  size: 'md',
 };
 
 export default Button;
