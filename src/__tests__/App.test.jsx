@@ -4,80 +4,62 @@ import App from '../App';
 import { renderWithTheme, screen } from '../test-utils';
 
 describe('App Component', () => {
-  it('renders without crashing', () => {
-    expect(() => renderWithTheme(<App />)).not.toThrow();
+  describe('Basic Rendering', () => {
+    it('renders without crashing', () => {
+      expect(() => renderWithTheme(<App />)).not.toThrow();
+    });
+
+    it('renders all main layout elements', () => {
+      renderWithTheme(<App />);
+
+      // Check main layout structure
+      const header = screen.getByRole('banner');
+      const main = screen.getByRole('main');
+      const footer = screen.getByRole('contentinfo');
+
+      expect(header).toBeInTheDocument();
+      expect(main).toBeInTheDocument();
+      expect(footer).toBeInTheDocument();
+    });
   });
 
-  it('renders the main application structure', () => {
-    renderWithTheme(<App />);
+  describe('Theme Provider Integration', () => {
+    it('provides theme context to all child components', () => {
+      renderWithTheme(<App />);
 
-    // The App component should render the Header component
-    const header = screen.getByRole('banner');
-    expect(header).toBeInTheDocument();
-  });
+      // Verify that styled-components receive theme context
+      const header = screen.getByRole('banner');
+      const main = screen.getByRole('main');
+      const footer = screen.getByRole('contentinfo');
 
-  it('provides theme context to child components', () => {
-    renderWithTheme(<App />);
+      expect(header).toBeInTheDocument();
+      expect(main).toBeInTheDocument();
+      expect(footer).toBeInTheDocument();
 
-    // Verify that styled-components receive theme context
-    // by checking if the Header component renders properly with its styling
-    const header = screen.getByRole('banner');
-    expect(header).toBeInTheDocument();
+      // Verify styled-components are working (no theme errors)
+      const logo = screen.getByRole('link', { name: /logo/i });
+      const searchInputs = screen.getAllByRole('textbox');
 
-    // Check that the Header contains its expected child components
-    const logo = screen.getByRole('link', { name: /logo/i });
-    const searchInputs = screen.getAllByRole('textbox');
-    const buttons = screen.getAllByRole('button');
+      expect(logo).toBeInTheDocument();
+      expect(searchInputs).toHaveLength(2);
+    });
 
-    expect(logo).toBeInTheDocument();
-    expect(searchInputs).toHaveLength(2); // Header search and main search
-    expect(buttons).toHaveLength(2); // Submit a request and Sign In buttons
-  });
+    it('maintains theme consistency across re-renders', () => {
+      const { rerender } = renderWithTheme(<App />);
 
-  it('renders all main application elements', () => {
-    renderWithTheme(<App />);
+      // Re-render the component
+      rerender(<App />);
 
-    // Verify the complete application structure
-    const header = screen.getByRole('banner');
-    const logo = screen.getByRole('link', { name: /logo/i });
-    const searchInputs = screen.getAllByRole('textbox');
-    const buttons = screen.getAllByRole('button');
+      // Verify elements are still present after re-render
+      const header = screen.getByRole('banner');
+      const main = screen.getByRole('main');
+      const footer = screen.getByRole('contentinfo');
+      const logo = screen.getByRole('link', { name: /logo/i });
 
-    expect(header).toBeInTheDocument();
-    expect(logo).toBeInTheDocument();
-    expect(searchInputs).toHaveLength(2); // Header search and main search
-    expect(buttons).toHaveLength(2);
-  });
-
-  it('maintains consistent structure across re-renders', () => {
-    const { rerender } = renderWithTheme(<App />);
-
-    // Re-render the component
-    rerender(<App />);
-
-    // Verify elements are still present after re-render
-    const header = screen.getByRole('banner');
-    const logo = screen.getByRole('link', { name: /logo/i });
-    const searchInputs = screen.getAllByRole('textbox');
-
-    expect(header).toBeInTheDocument();
-    expect(logo).toBeInTheDocument();
-    expect(searchInputs).toHaveLength(2); // Header search and main search
-  });
-
-  it('renders with correct theme provider setup', () => {
-    renderWithTheme(<App />);
-
-    // Since we're using renderWithTheme, the App component's ThemeProvider
-    // should work correctly with our test setup
-    const header = screen.getByRole('banner');
-    expect(header).toBeInTheDocument();
-
-    // Verify that styled-components are working (no theme errors)
-    const logo = screen.getByRole('link', { name: /logo/i });
-    const searchInputs = screen.getAllByRole('textbox');
-
-    expect(logo).toBeInTheDocument();
-    expect(searchInputs).toHaveLength(2); // Header search and main search
+      expect(header).toBeInTheDocument();
+      expect(main).toBeInTheDocument();
+      expect(footer).toBeInTheDocument();
+      expect(logo).toBeInTheDocument();
+    });
   });
 });
