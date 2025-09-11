@@ -62,7 +62,7 @@ const Link = styled.a`
   }
 `;
 
-function Card({ image, title, description, link, linkText, ariaLabel, ...props }) {
+function Card({ image, title, description, link, linkText = 'Learn more', ariaLabel, ...props }) {
   const cardId = `card-${title.toLowerCase().replace(/\s+/g, '-')}`;
   const linkId = `${cardId}-link`;
   const descriptionId = `${cardId}-description`;
@@ -98,11 +98,6 @@ Card.propTypes = {
   link: PropTypes.string.isRequired,
   linkText: PropTypes.string,
   ariaLabel: PropTypes.string,
-};
-
-Card.defaultProps = {
-  linkText: 'Learn more',
-  ariaLabel: undefined,
 };
 
 export default Card;

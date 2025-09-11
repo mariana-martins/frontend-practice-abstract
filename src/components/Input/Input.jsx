@@ -114,18 +114,18 @@ const InputIcon = styled(ArrowRight)`
 function Input({
   id,
   label,
-  type,
+  type = 'text',
   value,
   onChange,
   placeholder,
-  size,
-  required,
-  showIcon,
+  size = 'lg',
+  required = false,
+  showIcon = false,
   'aria-describedby': ariaDescribedby,
   'aria-invalid': ariaInvalid,
   'aria-required': ariaRequired,
-  showError,
-  errorMessage,
+  showError = false,
+  errorMessage = '',
   ...props
 }) {
   return (
@@ -181,19 +181,6 @@ Input.propTypes = {
   'aria-required': PropTypes.bool,
   showError: PropTypes.bool,
   errorMessage: PropTypes.string,
-};
-
-Input.defaultProps = {
-  type: 'text',
-  placeholder: undefined,
-  size: 'lg',
-  required: false,
-  showIcon: false,
-  'aria-describedby': undefined,
-  'aria-invalid': false,
-  'aria-required': false,
-  showError: false,
-  errorMessage: '',
 };
 
 export default Input;

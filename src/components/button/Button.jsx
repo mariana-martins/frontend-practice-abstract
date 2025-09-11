@@ -65,7 +65,7 @@ export const StyledButton = styled.button`
 `;
 
 // Button component with default props
-const Button = ({ children, variant, size, ...props }) => {
+const Button = ({ children, variant = 'primary', size = 'md', ...props }) => {
   return (
     <StyledButton $variant={variant} $size={size} {...props}>
       {children}
@@ -77,11 +77,6 @@ Button.propTypes = {
   children: PropTypes.node.isRequired,
   variant: PropTypes.oneOf(['primary', 'secondary']),
   size: PropTypes.oneOf(['md', 'lg']),
-};
-
-Button.defaultProps = {
-  variant: 'primary',
-  size: 'md',
 };
 
 export default Button;
