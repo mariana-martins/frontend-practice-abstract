@@ -22,7 +22,9 @@ describe('App Component', () => {
     // Verify that styled-components receive theme context
     // by checking if the Header component renders properly with its styling
     const header = screen.getByRole('banner');
+    const footer = screen.getByRole('contentinfo');
     expect(header).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
 
     // Check that the Header contains its expected child components
     const logo = screen.getByRole('link', { name: /logo/i });
@@ -39,11 +41,13 @@ describe('App Component', () => {
 
     // Verify the complete application structure
     const header = screen.getByRole('banner');
+    const footer = screen.getByRole('contentinfo');
     const logo = screen.getByRole('link', { name: /logo/i });
     const searchInputs = screen.getAllByRole('textbox');
     const buttons = screen.getAllByRole('button');
 
     expect(header).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
     expect(logo).toBeInTheDocument();
     expect(searchInputs).toHaveLength(2); // Header search and main search
     expect(buttons).toHaveLength(2);
@@ -57,10 +61,12 @@ describe('App Component', () => {
 
     // Verify elements are still present after re-render
     const header = screen.getByRole('banner');
+    const footer = screen.getByRole('contentinfo');
     const logo = screen.getByRole('link', { name: /logo/i });
     const searchInputs = screen.getAllByRole('textbox');
 
     expect(header).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
     expect(logo).toBeInTheDocument();
     expect(searchInputs).toHaveLength(2); // Header search and main search
   });
@@ -71,7 +77,9 @@ describe('App Component', () => {
     // Since we're using renderWithTheme, the App component's ThemeProvider
     // should work correctly with our test setup
     const header = screen.getByRole('banner');
+    const footer = screen.getByRole('contentinfo');
     expect(header).toBeInTheDocument();
+    expect(footer).toBeInTheDocument();
 
     // Verify that styled-components are working (no theme errors)
     const logo = screen.getByRole('link', { name: /logo/i });
