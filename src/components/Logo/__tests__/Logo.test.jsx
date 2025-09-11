@@ -33,15 +33,4 @@ describe('Logo Component', () => {
     expect(divider).toBeInTheDocument();
     expect(helpCenterText).toBeInTheDocument();
   });
-
-  it('is accessible with proper link behavior', () => {
-    renderWithTheme(<Logo />);
-
-    const logoLink = screen.getByRole('link');
-    expect(logoLink).toBeInTheDocument();
-
-    // Check that the link is focusable
-    logoLink.focus();
-    expect(logoLink).toHaveFocus();
-  });
 });

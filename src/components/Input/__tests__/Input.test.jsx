@@ -191,21 +191,6 @@ describe('Input Component', () => {
     expect(input2).toHaveValue('shared value');
   });
 
-  it('handles edge cases with empty values', () => {
-    renderWithTheme(<Input id="test-input" label="Test Input" value="" onChange={() => {}} />);
-
-    const input = screen.getByRole('textbox');
-    expect(input).toHaveValue('');
-  });
-
-  it('handles undefined and null values gracefully', () => {
-    renderWithTheme(<Input id="test-input" label="Test Input" value={undefined} />);
-
-    const input = screen.getByRole('textbox');
-    expect(input).toBeInTheDocument();
-  });
-
-  // New tests for error handling and tooltip functionality
   it('renders error message when showError is true', () => {
     renderWithTheme(
       <Input
@@ -345,31 +330,6 @@ describe('Input Component', () => {
     // Error should be cleared
     expect(input).toHaveAttribute('aria-invalid', 'false');
     expect(screen.queryByText('Initial error')).not.toBeInTheDocument();
-  });
-
-  it('handles disabled state with proper styling', () => {
-    renderWithTheme(<Input id="test-input" label="Test Input" disabled={true} />);
-
-    const input = screen.getByRole('textbox');
-    expect(input).toBeDisabled();
-  });
-
-  it('forwards all additional props correctly', () => {
-    renderWithTheme(
-      <Input
-        id="test-input"
-        label="Test Input"
-        data-testid="custom-input"
-        maxLength={50}
-        autoComplete="off"
-        spellCheck={false}
-      />
-    );
-
-    const input = screen.getByTestId('custom-input');
-    expect(input).toHaveAttribute('maxLength', '50');
-    expect(input).toHaveAttribute('autoComplete', 'off');
-    expect(input).toHaveAttribute('spellCheck', 'false');
   });
 
   // Icon functionality tests

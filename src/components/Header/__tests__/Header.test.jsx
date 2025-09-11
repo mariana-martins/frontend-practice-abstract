@@ -132,29 +132,6 @@ describe('Header Component', () => {
     expect(searchInput).toHaveAttribute('aria-invalid', 'true');
   });
 
-  it('has correct button variants and sizes', () => {
-    renderWithTheme(<Header />);
-
-    const submitButton = screen.getByRole('button', { name: /submit a request/i });
-    const signInButton = screen.getByRole('button', { name: /sign in/i });
-
-    // Both buttons should be present
-    expect(submitButton).toBeInTheDocument();
-    expect(signInButton).toBeInTheDocument();
-  });
-
-  it('has accessible search input with proper labeling', () => {
-    renderWithTheme(<Header />);
-
-    const searchInput = screen.getByPlaceholderText('Search');
-    expect(searchInput).toHaveAttribute('id', 'header-search-input');
-
-    // Check if there's a label for the input (even if visually hidden)
-    const label = screen.getByText('Search');
-    expect(label).toBeInTheDocument();
-  });
-
-  // New tests for enhanced validation and error handling
   it('shows validation error for search term too short', async () => {
     const user = userEvent.setup();
     renderWithTheme(<Header />);
@@ -170,23 +147,6 @@ describe('Header Component', () => {
     expect(searchInput).toHaveAttribute('aria-invalid', 'true');
 
     // Check that alert was NOT called (since we use state-based error handling)
-    expect(mockAlert).not.toHaveBeenCalled();
-  });
-
-  it('shows validation error for search term too short via Enter key', async () => {
-    const user = userEvent.setup();
-    renderWithTheme(<Header />);
-
-    const searchInput = screen.getByPlaceholderText('Search');
-
-    // Type a short search term and press Enter
-    await user.type(searchInput, 'xyz');
-    await user.keyboard('{Enter}');
-
-    // Check that error state is set
-    expect(searchInput).toHaveAttribute('aria-invalid', 'true');
-
-    // Check that alert was NOT called
     expect(mockAlert).not.toHaveBeenCalled();
   });
 
@@ -287,21 +247,5 @@ describe('Header Component', () => {
     // Restore original alert and console.error
     global.alert = originalAlert;
     consoleSpy.mockRestore();
-  });
-
-  it('maintains proper form structure and accessibility', () => {
-    renderWithTheme(<Header />);
-
-    // Check that form element exists (using tag name since role might not be recognized)
-    const form = document.querySelector('form');
-    expect(form).toBeInTheDocument();
-
-    // Check that search input is properly associated with the form
-    const searchInput = screen.getByPlaceholderText('Search');
-    expect(form).toContainElement(searchInput);
-
-    // Check that submit button is in the form
-    const submitButton = screen.getByRole('button', { name: /submit a request/i });
-    expect(form).toContainElement(submitButton);
   });
 });

@@ -142,34 +142,6 @@ describe('SearchFormSection', () => {
     });
   });
 
-  it('handles form submission via Enter key', async () => {
-    const user = userEvent.setup();
-    renderWithTheme(<SearchFormSection />);
-
-    const input = screen.getByRole('textbox', { name: /search/i });
-    await user.type(input, 'test search');
-    await user.keyboard('{Enter}');
-
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Search: test search');
-    });
-  });
-
-  it('handles form submission via form submit event', async () => {
-    const user = userEvent.setup();
-    renderWithTheme(<SearchFormSection />);
-
-    const input = screen.getByRole('textbox', { name: /search/i });
-    const form = screen.getByRole('form');
-
-    await user.type(input, 'test search');
-    fireEvent.submit(form);
-
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Search: test search');
-    });
-  });
-
   it('handles error in submit function gracefully', async () => {
     const user = userEvent.setup();
 

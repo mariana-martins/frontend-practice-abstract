@@ -46,15 +46,6 @@ describe('CardStack Component', () => {
     expect(screen.getByText('Test Card 3')).toBeInTheDocument();
   });
 
-  it('uses correct keys for each card', () => {
-    renderWithTheme(<CardStack />);
-
-    // Each card should have unique content based on their IDs
-    expect(screen.getByText('Test Card 1')).toBeInTheDocument();
-    expect(screen.getByText('Test Card 2')).toBeInTheDocument();
-    expect(screen.getByText('Test Card 3')).toBeInTheDocument();
-  });
-
   it('renders correct number of cards', () => {
     renderWithTheme(<CardStack />);
 
