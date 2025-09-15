@@ -1,3 +1,4 @@
+import { Menu, Search } from 'feather-icons-react';
 import styled from 'styled-components';
 
 import React, { useState } from 'react';
@@ -17,6 +18,39 @@ const StyledHeader = styled.header`
 const Form = styled.form`
   margin-left: auto;
   margin-right: ${({ theme }) => theme.spacing[4]};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    display: none;
+  }
+`;
+
+const SignInButton = styled(Button)`
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    display: none;
+  }
+`;
+
+const MobileMenu = styled.div`
+  display: none;
+  margin-left: auto;
+  margin-right: ${({ theme }) => theme.spacing[4]};
+  color: ${({ theme }) => theme.colors.brand.white};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.spacing[4]};
+  }
+
+  /* Hover animation for all children (icons) */
+  & > * {
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
 `;
 
 const Box = styled.div`
@@ -94,9 +128,13 @@ function Header() {
           </Button>
         </Box>
       </Form>
-      <Button variant="primary" size="lg">
+      <SignInButton variant="primary" size="lg">
         Sign In
-      </Button>
+      </SignInButton>
+      <MobileMenu>
+        <Search size={24} />
+        <Menu size={24} />
+      </MobileMenu>
     </StyledHeader>
   );
 }
