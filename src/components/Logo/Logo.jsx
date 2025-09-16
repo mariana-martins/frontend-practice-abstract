@@ -22,6 +22,7 @@ export const MiniLogo = ({ ...props }) => {
 
 const StyledLink = styled.a`
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 8px;
   text-decoration: none;

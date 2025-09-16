@@ -14,6 +14,60 @@ const StyledFooter = styled.footer`
 
   background-color: ${({ theme }) => theme.colors.brand.black};
   color: ${({ theme }) => theme.colors.brand.white};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    grid-template-columns: repeat(2, 1fr) 1.5fr;
+    grid-template-rows: repeat(2, auto);
+    column-gap: ${({ theme }) => theme.spacing[4]};
+    row-gap: 0;
+    padding-inline: ${({ theme }) => theme.spacing[18]};
+
+    /* First row: Abstract, Resources, empty */
+    & > :nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+    & > :nth-child(2) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    /* Second row: Community, Company, Copyright */
+    & > :nth-child(3) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+    & > :nth-child(4) {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    & > :nth-child(5) {
+      grid-column: 3;
+      grid-row: 2;
+    }
+
+    /* Ensure copyright section spans full width on bottom */
+    & > :last-child {
+      grid-column: -3 / -1;
+      grid-row: 3;
+      margin-top: ${({ theme }) => theme.spacing[8]};
+    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    grid-template-columns: repeat(2, 1fr) 1.5fr;
+    grid-template-rows: repeat(2, auto);
+    column-gap: ${({ theme }) => theme.spacing[18]};
+    row-gap: 0;
+    padding-inline: ${({ theme }) => theme.spacing[4]};
+
+    & > :last-child {
+      grid-column: 1 / -2;
+      grid-row: 3;
+      align-self: start;
+      justify-self: start;
+    }
+  }
 `;
 
 const Stack = styled.section`
@@ -43,7 +97,7 @@ const Link = styled.a`
   text-decoration: none;
   color: ${({ theme }) => theme.colors.brand.white};
   width: fit-content;
-  padding: ${({ theme }) => theme.spacing[1]} ${({ theme }) => theme.spacing[2]};
+  padding-block: ${({ theme }) => theme.spacing[1]};
   border-radius: ${({ theme }) => theme.spacing[1]};
   transition: all 0.2s ease;
 

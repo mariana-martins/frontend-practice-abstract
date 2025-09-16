@@ -13,6 +13,10 @@ const StyledHeader = styled.header`
   padding-block: ${({ theme }) => theme.spacing[5]};
   padding-inline: ${({ theme }) => theme.spacing[18]};
   background-color: ${({ theme }) => theme.colors.brand.black};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    padding-inline: ${({ theme }) => theme.spacing[3.5]};
+  }
 `;
 
 const Form = styled.form`
@@ -39,7 +43,7 @@ const MobileMenu = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
     display: flex;
     align-items: center;
-    gap: ${({ theme }) => theme.spacing[4]};
+    gap: ${({ theme }) => theme.spacing[2]};
   }
 
   /* Hover animation for all children (icons) */
