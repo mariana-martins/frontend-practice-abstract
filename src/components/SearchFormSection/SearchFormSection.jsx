@@ -21,6 +21,14 @@ const Title = styled.h1`
   font-family: ${({ theme }) => theme.typography.fontFamily.sans};
   font-size: ${({ theme }) => theme.typography.fontSize['8xl']};
   color: ${({ theme }) => theme.colors.brand.black};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    font-size: ${({ theme }) => theme.typography.fontSize['6xl']};
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    font-size: ${({ theme }) => theme.typography.fontSize['4xl']};
+  }
 `;
 
 const Form = styled.form`
