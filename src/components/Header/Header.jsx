@@ -1,3 +1,4 @@
+import { Menu, Search } from 'feather-icons-react';
 import styled from 'styled-components';
 
 import React, { useState } from 'react';
@@ -12,11 +13,48 @@ const StyledHeader = styled.header`
   padding-block: ${({ theme }) => theme.spacing[5]};
   padding-inline: ${({ theme }) => theme.spacing[18]};
   background-color: ${({ theme }) => theme.colors.brand.black};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    padding-inline: ${({ theme }) => theme.spacing[3.5]};
+  }
 `;
 
 const Form = styled.form`
   margin-left: auto;
   margin-right: ${({ theme }) => theme.spacing[4]};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    display: none;
+  }
+`;
+
+const SignInButton = styled(Button)`
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    display: none;
+  }
+`;
+
+const MobileMenu = styled.div`
+  display: none;
+  margin-left: auto;
+  margin-right: ${({ theme }) => theme.spacing[4]};
+  color: ${({ theme }) => theme.colors.brand.white};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    display: flex;
+    align-items: center;
+    gap: ${({ theme }) => theme.spacing[2]};
+  }
+
+  /* Hover animation for all children (icons) */
+  & > * {
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
 `;
 
 const Box = styled.div`
@@ -64,8 +102,7 @@ function Header() {
       setShowError(false);
       setSearchError('');
       alert('Search: ' + trimmedSearch);
-    } catch (error) {
-      console.error('Error in handleSubmit:', error);
+    } catch {
       setSearchError('An error occurred. Please try again.');
       setShowError(true);
     }
@@ -94,9 +131,13 @@ function Header() {
           </Button>
         </Box>
       </Form>
-      <Button variant="primary" size="lg">
+      <SignInButton variant="primary" size="lg">
         Sign In
-      </Button>
+      </SignInButton>
+      <MobileMenu>
+        <Search size={24} />
+        <Menu size={24} />
+      </MobileMenu>
     </StyledHeader>
   );
 }

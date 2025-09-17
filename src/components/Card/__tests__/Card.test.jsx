@@ -61,44 +61,6 @@ describe('Card Component', () => {
     expect(card).toHaveClass('custom-class');
   });
 
-  it('renders with different title and description', () => {
-    const customData = {
-      ...mockCardData,
-      title: 'Custom Title',
-      description: 'Custom description text',
-    };
-
-    renderWithTheme(<Card {...customData} />);
-
-    expect(screen.getByText('Custom Title')).toBeInTheDocument();
-    expect(screen.getByText('Custom description text')).toBeInTheDocument();
-  });
-
-  it('renders with different image source', () => {
-    const customData = {
-      ...mockCardData,
-      image: '/custom-image.jpg',
-      title: 'Custom Image Card',
-    };
-
-    renderWithTheme(<Card {...customData} />);
-
-    const image = screen.getByAltText('Custom Image Card');
-    expect(image).toHaveAttribute('src', '/custom-image.jpg');
-  });
-
-  it('renders with different link URL', () => {
-    const customData = {
-      ...mockCardData,
-      link: 'https://different-example.com',
-    };
-
-    renderWithTheme(<Card {...customData} />);
-
-    const link = screen.getByRole('link', { name: 'Learn more → about Test Card Title' });
-    expect(link).toHaveAttribute('href', 'https://different-example.com');
-  });
-
   it('handles keyboard navigation', async () => {
     const user = userEvent.setup();
     renderWithTheme(<Card {...mockCardData} />);

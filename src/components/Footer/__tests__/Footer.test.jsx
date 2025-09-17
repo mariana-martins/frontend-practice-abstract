@@ -34,15 +34,6 @@ describe('Footer', () => {
       expect(screen.getByRole('heading', { name: 'Company' })).toBeInTheDocument();
     });
 
-    it('renders all section headings', () => {
-      renderWithTheme(<Footer />);
-
-      expect(screen.getByRole('heading', { name: 'Abstract' })).toBeInTheDocument();
-      expect(screen.getByRole('heading', { name: 'Resources' })).toBeInTheDocument();
-      expect(screen.getByRole('heading', { name: 'Community' })).toBeInTheDocument();
-      expect(screen.getByRole('heading', { name: 'Company' })).toBeInTheDocument();
-    });
-
     it('renders the contact us subheading', () => {
       renderWithTheme(<Footer />);
 

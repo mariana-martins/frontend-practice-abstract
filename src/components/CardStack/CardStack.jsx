@@ -7,12 +7,17 @@ import Card from '../Card';
 
 const Stack = styled.section`
   display: grid;
+  grid-template-columns: repeat(2, minmax(50px, 1fr));
   padding-inline: ${({ theme }) => theme.spacing[4]};
   padding-block: ${({ theme }) => theme.spacing[16]};
   margin-inline: auto;
-  grid-template-columns: repeat(2, minmax(50px, 1fr));
   width: 80%;
   max-width: 1600px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.lg}) {
+    grid-template-columns: repeat(1, minmax(50px, 1fr));
+    padding-inline: 0;
+  }
 `;
 
 function CardStack() {

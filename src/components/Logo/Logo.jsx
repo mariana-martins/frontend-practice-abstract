@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import React from 'react';
@@ -20,8 +21,19 @@ export const MiniLogo = ({ ...props }) => {
   );
 };
 
+MiniLogo.propTypes = {
+  className: PropTypes.string,
+  style: PropTypes.object,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  'aria-label': PropTypes.string,
+  'aria-hidden': PropTypes.bool,
+  role: PropTypes.string,
+};
+
 const StyledLink = styled.a`
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 8px;
   text-decoration: none;

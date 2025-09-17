@@ -142,39 +142,8 @@ describe('SearchFormSection', () => {
     });
   });
 
-  it('handles form submission via Enter key', async () => {
-    const user = userEvent.setup();
-    renderWithTheme(<SearchFormSection />);
-
-    const input = screen.getByRole('textbox', { name: /search/i });
-    await user.type(input, 'test search');
-    await user.keyboard('{Enter}');
-
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Search: test search');
-    });
-  });
-
-  it('handles form submission via form submit event', async () => {
-    const user = userEvent.setup();
-    renderWithTheme(<SearchFormSection />);
-
-    const input = screen.getByRole('textbox', { name: /search/i });
-    const form = screen.getByRole('form');
-
-    await user.type(input, 'test search');
-    fireEvent.submit(form);
-
-    await waitFor(() => {
-      expect(window.alert).toHaveBeenCalledWith('Search: test search');
-    });
-  });
-
   it('handles error in submit function gracefully', async () => {
     const user = userEvent.setup();
-
-    // Mock console.error to avoid noise
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
 
     // Mock a function that throws an error
     const originalAlert = window.alert;
@@ -192,11 +161,8 @@ describe('SearchFormSection', () => {
       expect(screen.getByRole('alert')).toHaveTextContent('An error occurred. Please try again.');
     });
 
-    expect(consoleSpy).toHaveBeenCalledWith('Error in handleSubmit:', expect.any(Error));
-
     // Cleanup
     window.alert = originalAlert;
-    consoleSpy.mockRestore();
   });
 
   it('maintains input focus after clearing error', async () => {

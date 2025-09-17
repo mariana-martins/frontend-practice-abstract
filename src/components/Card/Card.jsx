@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import React from 'react';
@@ -89,5 +90,14 @@ function Card({ image, title, description, link, linkText = 'Learn more', ariaLa
     </StyledCard>
   );
 }
+
+Card.propTypes = {
+  image: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  link: PropTypes.string.isRequired,
+  linkText: PropTypes.string,
+  ariaLabel: PropTypes.string,
+};
 
 export default Card;
