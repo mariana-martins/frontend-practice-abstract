@@ -74,8 +74,7 @@ function SearchFormSection() {
       setShowError(false);
       setSearchError('');
       alert('Search: ' + trimmedSearch);
-    } catch (error) {
-      console.error('Error in handleSubmit:', error);
+    } catch {
       setSearchError('An error occurred. Please try again.');
       setShowError(true);
     }

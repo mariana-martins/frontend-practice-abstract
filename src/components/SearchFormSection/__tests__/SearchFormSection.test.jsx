@@ -145,9 +145,6 @@ describe('SearchFormSection', () => {
   it('handles error in submit function gracefully', async () => {
     const user = userEvent.setup();
 
-    // Mock console.error to avoid noise
-    const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-
     // Mock a function that throws an error
     const originalAlert = window.alert;
     window.alert = jest.fn(() => {
@@ -164,11 +161,8 @@ describe('SearchFormSection', () => {
       expect(screen.getByRole('alert')).toHaveTextContent('An error occurred. Please try again.');
     });
 
-    expect(consoleSpy).toHaveBeenCalledWith('Error in handleSubmit:', expect.any(Error));
-
     // Cleanup
     window.alert = originalAlert;
-    consoleSpy.mockRestore();
   });
 
   it('maintains input focus after clearing error', async () => {
